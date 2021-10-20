@@ -25,7 +25,8 @@ namespace tic_tac_toe
                         }
                         Print.ShowTheField(field);
                     }
-                    else {
+                    else
+                    {
                         Print.PrintWiner(testwin);
                         break;
                     }
@@ -70,7 +71,7 @@ namespace tic_tac_toe
                 else if (isVertical(field, isX)) return 'x';
                 else if (isVertical(field, isO)) return 'o';
                 else if (isСellsAreFree(field)) return ' ';
-                else return 'y';
+                else return 'e';
             }
 
 
@@ -139,17 +140,14 @@ namespace tic_tac_toe
             }
             public void PrintWiner(char testwin)
             {
-                if (testwin == 'x')
+                if (testwin == 'e')
                 {
-                    Console.WriteLine("Win: X");
-                }
-                else if (testwin == 'o')
-                {
-                    Console.WriteLine("Win: O");
+                    Console.WriteLine("No one win!");
                 }
                 else
                 {
-                    Console.WriteLine("No one win!");
+                    Console.WriteLine($"Win: {testwin.ToString().ToUpper()}");
+
                 }
             }
         }
