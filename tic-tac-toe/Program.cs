@@ -6,38 +6,14 @@ namespace tic_tac_toe
     {
         class Game
         {
-            private PrintGameField Print = new PrintGameField();
-            public void StartGame(char[,] field, int[,] steps)
-            {
-                Print.ShowTheField(field);
-                for (int i = 0; i < steps.GetUpperBound(0) + 2; i++)
-                {
-                    char testwin = isWin(field);
-                    if (testwin == ' ')
-                    {
-                        if (i % 2 == 0)
-                        {
-                            field = DoStep(field, steps[i, 0], steps[i, 1], 'x');
-                        }
-                        else
-                        {
-                            field = DoStep(field, steps[i, 0], steps[i, 1], 'o');
-                        }
-                        Print.ShowTheField(field);
-                    }
-                    else
-                    {
-                        Print.PrintWiner(testwin);
-                        break;
-                    }
-                }
-            }
-
-            private char[,] DoStep(char[,] field, int row, int col, char XorO)
+            public char[,] field = { { ' ', ' ', ' ' }, { ' ', ' ', ' ' }, { ' ', ' ', ' ' } };
+            static private string isX = "xxx";
+            static private string isO = "ooo";
+            public char[,] DoStep( int row, int col, char XorO)
             {
                 if (XorO == 'x' || XorO == 'o')
                 {
-                    if (checkCell(row, col, field))
+                    if (checkCell(row, col))
                     {
                         field[row, col] = XorO;
                         return field;
@@ -55,27 +31,26 @@ namespace tic_tac_toe
                 }
             }
 
-            private bool checkCell(int row, int col, char[,] field)
+            private bool checkCell(int row, int col)
             {
                 if (field[row, col] == ' ') return true;
                 else return false;
             }
-            private char isWin(char[,] field)
+            public char isWin()
             {
-                string isX = "xxx";
-                string isO = "ooo";
-                if (isDiagonal(field, isX)) return 'x';
-                else if (isDiagonal(field, isO)) return 'o';
-                else if (isHorisontal(field, isX)) return 'x';
-                else if (isHorisontal(field, isO)) return 'o';
-                else if (isVertical(field, isX)) return 'x';
-                else if (isVertical(field, isO)) return 'o';
-                else if (isСellsAreFree(field)) return ' ';
+                
+                if (isDiagonal(isX)) return 'x';
+                else if (isDiagonal(isO)) return 'o';
+                else if (isHorisontal(isX)) return 'x';
+                else if (isHorisontal(isO)) return 'o';
+                else if (isVertical(isX)) return 'x';
+                else if (isVertical(isO)) return 'o';
+                else if (isСellsAreFree()) return ' ';
                 else return 'e';
             }
 
 
-            private bool isСellsAreFree(char[,] field)
+            private bool isСellsAreFree()
             {
                 for (int i = 0; i < 3; i++)
                 {
@@ -87,7 +62,7 @@ namespace tic_tac_toe
                 return false;
             }
 
-            private bool isVertical(char[,] field, string XorO)
+            private bool isVertical(string XorO)
             {
                 for (int i = 0; i < 3; i++)
                 {
@@ -100,13 +75,13 @@ namespace tic_tac_toe
                 }
                 return false;
             }
-            private bool isDiagonal(char[,] field, string XorO)
+            private bool isDiagonal(string XorO)
             {
                 if ($"{field[0, 0]}{field[1, 1]}{field[2, 2]}" == XorO) return true;
                 else if ($"{field[0, 2]}{field[1, 1]}{field[2, 0]}" == XorO) return true;
                 else return false;
             }
-            private bool isHorisontal(char[,] field, string XorO)
+            private bool isHorisontal(string XorO)
             {
                 for (int i = 0; i < 3; i++)
                 {
@@ -135,7 +110,6 @@ namespace tic_tac_toe
 
                 for (int i = 0; i < field.GetUpperBound(0) + 1; i++)
                     transform += $"{field[i, 0]}|{field[i, 1]}|{field[i, 2]} \n";
-
                 return transform;
             }
             public void PrintWiner(char testwin)
@@ -153,11 +127,34 @@ namespace tic_tac_toe
         }
         static void Main()
         {
-            char[,] field = { { ' ', ' ', ' ' }, { ' ', ' ', ' ' }, { ' ', ' ', ' ' } };
             int[,] steps = { { 0, 0 }, { 0, 1 }, { 1, 1 }, { 0, 2 }, { 2, 2 } };
 
-            Game firstGame = new Game();
-            firstGame.StartGame(field, steps);
+            Game StartGame = new Game();
+            PrintGameField PrintField = new PrintGameField();
+
+            PrintField.ShowTheField(StartGame.field);
+            for (int i = 0; i < steps.GetUpperBound(0) + 2; i++)
+            {
+                char testwin = StartGame.isWin();
+                if (testwin == ' ')
+                {
+                    if (i % 2 == 0)
+                    {
+                        StartGame.field = StartGame.DoStep(steps[i, 0], steps[i, 1], 'x');
+                    }
+                    else
+                    {
+                        StartGame.field = StartGame.DoStep(steps[i, 0], steps[i, 1], 'o');
+                    }
+                    PrintField.ShowTheField(StartGame.field );
+                }
+                else
+                {
+                    PrintField.PrintWiner(testwin);
+                    break;
+                }
+            }
+            
         }
     }
 }
