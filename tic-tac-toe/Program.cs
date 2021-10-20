@@ -6,13 +6,13 @@ namespace tic_tac_toe
     {
         class Game
         {
-            private PrintGameField Print;
+            private PrintGameField Print = new PrintGameField();
             public void StartGame(char[,] field, int[,] steps)
             {
                 Print.ShowTheField(field);
                 for (int i = 0; i < steps.GetUpperBound(0) + 2; i++)
                 {
-                    int testwin = isWin(field);
+                    char testwin = isWin(field);
                     if (testwin == ' ')
                     {
                         if (i % 2 == 0)
@@ -25,19 +25,8 @@ namespace tic_tac_toe
                         }
                         Print.ShowTheField(field);
                     }
-                    else if (testwin == 'x')
-                    {
-                        System.Console.WriteLine("Win: X");
-                        break;
-                    }
-                    else if (testwin == 'o')
-                    {
-                        System.Console.WriteLine("Win: O");
-                        break;
-                    }
-                    else
-                    {
-                        System.Console.WriteLine("No one win!");
+                    else {
+                        Print.PrintWiner(testwin);
                         break;
                     }
                 }
@@ -148,9 +137,20 @@ namespace tic_tac_toe
 
                 return transform;
             }
-            public void PrintWiner()
+            public void PrintWiner(char testwin)
             {
-
+                if (testwin == 'x')
+                {
+                    Console.WriteLine("Win: X");
+                }
+                else if (testwin == 'o')
+                {
+                    Console.WriteLine("Win: O");
+                }
+                else
+                {
+                    Console.WriteLine("No one win!");
+                }
             }
         }
         static void Main()
@@ -160,13 +160,6 @@ namespace tic_tac_toe
 
             Game firstGame = new Game();
             firstGame.StartGame(field, steps);
-
-
-
-
         }
-
-
-
     }
 }
