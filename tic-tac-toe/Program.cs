@@ -11,7 +11,6 @@ namespace tic_tac_toe
 
             ShowTheField(field);
 
-            int[] flag = { 0, 1, 2 };
             for (int i = 0; i < steps.GetUpperBound(0) + 2; i++)
             {
                 int testwin = isWin(field);
